@@ -1,7 +1,6 @@
 package com.example.redis.controller;
 
 import com.example.redis.dto.TaskDTO;
-import com.example.redis.dto.TaskDescriptionDTO;
 import com.example.redis.repository.RedisRepo;
 import com.example.redis.service.CacheableService;
 import com.example.redis.service.SpringDataRedisService;
@@ -25,13 +24,13 @@ public class RedisController {
     }
 
     @GetMapping("/save/springdata")
-    public TaskDescriptionDTO cacheDescription(String id, String description){
-        return springDataRedisService.saveToCache(id, description);
+    public TaskDTO cacheDescription(long param){
+        return springDataRedisService.saveToCache(param);
     }
 
     @GetMapping("/get")
-    public TaskDescriptionDTO getDescription(String id){
-        Optional<TaskDescriptionDTO> task = redisRepo.findById(id);
+    public TaskDTO getDescription(long param){
+        Optional<TaskDTO> task = redisRepo.findById(param);
         return task.get();
     }
 }
