@@ -9,16 +9,16 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class SimpleService {
+public class CacheableService {
 
     @SneakyThrows
     @Cacheable(value = "SimpleCaching")
-    public Optional<TaskDTO> getCalculationTaskResult(long parameter){
+    public TaskDTO getCalculationTaskResult(long parameter){
         long randomMultiplier = new Random().nextLong();
         long calculatedResult = randomMultiplier * parameter;
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setCalculatedResult(calculatedResult);
         Thread.sleep(2000);
-        return Optional.of(taskDTO);
+        return taskDTO;
     }
 }

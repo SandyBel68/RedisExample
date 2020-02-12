@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 @Data
 public class TaskDTO implements Serializable {
-    long calculatedResult;
+    private long calculatedResult;
 }
