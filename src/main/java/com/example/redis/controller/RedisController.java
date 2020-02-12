@@ -2,8 +2,7 @@ package com.example.redis.controller;
 
 import com.example.redis.dto.TaskDTO;
 import com.example.redis.repository.RedisRepo;
-import com.example.redis.service.CacheableService;
-import com.example.redis.service.SpringDataRedisService;
+import com.example.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,23 +13,22 @@ import java.util.Optional;
 @RestController("/cache")
 public class RedisController {
 
-    private final CacheableService cacheableService;
-    private final SpringDataRedisService springDataRedisService;
+    private final RedisService redisService;
     private final RedisRepo redisRepo;
 
-    @GetMapping("/save/cacheable")
-    public TaskDTO cacheWithCacheable(long param){
-        return cacheableService.getCalculationTaskResult(param);
+    @GetMapping("/cacheable")
+    public TaskDTO cacheWithCacheable(long id, long param){
+        return redisService.getCalculationTaskResult(id, param);
     }
 
-    @GetMapping("/save/springdata")
-    public TaskDTO cacheDescription(long param){
-        return springDataRedisService.saveToCache(param);
+    @GetMapping("/springdata")
+    public TaskDTO cacheSpringData(long id, long param){
+        return redisService.getResultAndSave(id, param);
     }
 
     @GetMapping("/get")
-    public TaskDTO getDescription(long param){
-        Optional<TaskDTO> task = redisRepo.findById(param);
-        return task.get();
+    public TaskDTO getWithSpringData(long id){
+        Optional<TaskDTO> task = redisRepo.findById(id);
+        return task.orElse(null);
     }
 }
